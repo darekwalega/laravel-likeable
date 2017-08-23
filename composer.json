@@ -1,0 +1,29 @@
+{
+    "name": "darekwalega/laravel-likeable",
+    "description": "Likeable for Laravel.",
+    "license": "MIT",
+    "keywords": ["laravel", "likeable"],
+    "authors": [
+        {
+            "name": "Darek Walęga",
+            "email": "darek@abix.com.pl"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Abix\\Likeable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": ["tests/TestCase.php"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "illuminate/database": "^5.5",
+        "illuminate/cache": "^5.5"
+    },
+    "minimum-stability": "dev"
+}
