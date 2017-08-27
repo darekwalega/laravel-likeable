@@ -7,30 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasLikes
 {
-	/**
+    /**
      * Collection of likes and dislikes.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function likesRelation()
     {
-    	return $this->morphMany(Like::class, 'likeable');
-    }
-
-    /**
-     * Has the user already liked or disliked likeable model.
-     * 
-     * @param  Model   $owner
-     * @return boolean
-     */
-    public function isLikedOrDisliked(Model $owner)
-    {
-        $attributes = [
-            'owner_id' => $owner->id,
-            'owner_type' => get_class($owner),
-        ];
-
-        return $this->likesRelation()->where($attributes)->exists();
+        return $this->morphMany(Like::class, 'likeable');
     }
 
     /**
@@ -143,6 +127,44 @@ trait HasLikes
         $this->dislikes()->where($attributes)->first()->delete();
 
         return $this;
+    }
+
+    /**
+     * Has the user already liked or disliked likeable model.
+     * 
+     * @param  Model   $owner
+     * @return boolean
+     */
+    public function isLikedOrDisliked(Model $owner)
+    {
+        $attributes = [
+            'owner_id' => $owner->id,
+            'owner_type' => get_class($owner),
+        ];
+
+        return (bool) $this->likesRelation()->where($attributes)->exists();
+    }
+
+    /**
+     * Can the user like or dislike likeable model.
+     * 
+     * @param  Model   $owner
+     * @return boolean
+     */
+    public function canBeLiked(Model $owner)
+    {
+        return (bool) ! $this->isLikedOrDisliked($owner);
+    }
+
+    /**
+     * Can the user like or dislike likeable model.
+     * 
+     * @param  Model   $owner
+     * @return JSON
+     */
+    public function canBeLikedAsJson(Model $owner)
+    {
+        return json_encode($this->canBeLiked($owner));
     }
 
     /**
