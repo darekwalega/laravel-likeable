@@ -72,19 +72,6 @@ class HasLikesTest extends TestCase
         $this->assertTrue($entity->isLiked($user));
     }
 
-    /** @test */
-    public function it_can_get_likes_count()
-    {
-        $entity = $this->makeEntity();
-
-        $entity->like($this->makeUser());
-        $entity->like($this->makeUser());
-        $entity->like($this->makeUser());
-        $entity->like($this->makeUser());
-
-        $this->assertEquals(4, $entity->likesCount);
-    }
-
     // =============================================
 	// Dislikes
 	// =============================================
@@ -179,18 +166,5 @@ class HasLikesTest extends TestCase
         $entity->dislike($user);
 
         $this->assertCount(0, $entity->dislikes);
-    }
-
-    /** @test */
-    public function it_can_get_dislikes_count()
-    {
-        $entity = $this->makeEntity();
-
-        $entity->dislike($this->makeUser());
-        $entity->dislike($this->makeUser());
-        $entity->dislike($this->makeUser());
-        $entity->dislike($this->makeUser());
-
-        $this->assertEquals(4, $entity->dislikesCount);
     }
 }

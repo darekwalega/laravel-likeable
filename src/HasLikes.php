@@ -178,17 +178,4 @@ trait HasLikes
 
         return $this->dislikes()->where($attributes)->exists();
     }
-
-    // =============================================
-    // Accessors
-    // =============================================
-    public function getLikesCountAttribute()
-    {
-        return $this->likes()->count();
-    }
-
-    public function getDislikesCountAttribute()
-    {
-        return $this->dislikes()->count();
-    }
 }
