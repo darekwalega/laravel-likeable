@@ -2,11 +2,15 @@
 
 namespace Abix\Likeable;
 
-use Abix\Likeable\Like;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasLikes
 {
+    public function likeModel()
+    {
+        return 'Abix\Likeable\Like';
+    }
+
     /**
      * Collection of likes and dislikes.
      * 
@@ -14,7 +18,7 @@ trait HasLikes
      */
     public function likesRelation()
     {
-        return $this->morphMany(Like::class, 'likeable');
+        return $this->morphMany($this->likeModel(), 'likeable');
     }
 
     /**
@@ -24,7 +28,7 @@ trait HasLikes
      */
     public function likes()
     {
-        return $this->likesRelation()->where('type', Like::LIKE);
+        return $this->likesRelation()->where('type', $this->likeModel()::LIKE);
     }
 
     /**
@@ -34,7 +38,7 @@ trait HasLikes
      */
     public function dislikes()
     {
-        return $this->likesRelation()->where('type', Like::DISLIKE);
+        return $this->likesRelation()->where('type', $this->likeModel()::DISLIKE);
     }
 
     /**
@@ -52,7 +56,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::LIKE,
+            'type' => $this->likeModel()::LIKE,
         ];
 
         $this->likes()->create($attributes);
@@ -75,7 +79,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::LIKE,
+            'type' => $this->likeModel()::LIKE,
         ];
 
         $this->likes()->where($attributes)->first()->delete();
@@ -98,7 +102,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::DISLIKE,
+            'type' => $this->likeModel()::DISLIKE,
         ];
 
         $this->dislikes()->create($attributes);
@@ -121,7 +125,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::DISLIKE,
+            'type' => $this->likeModel()::DISLIKE,
         ];
 
         $this->dislikes()->where($attributes)->first()->delete();
@@ -178,7 +182,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::LIKE,
+            'type' => $this->likeModel()::LIKE,
         ];
 
         return $this->likes()->where($attributes)->exists();
@@ -195,7 +199,7 @@ trait HasLikes
         $attributes = [
             'owner_id' => $owner->id,
             'owner_type' => get_class($owner),
-            'type' => Like::DISLIKE,
+            'type' => $this->likeModel()::DISLIKE,
         ];
 
         return $this->dislikes()->where($attributes)->exists();
